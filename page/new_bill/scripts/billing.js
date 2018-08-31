@@ -5,7 +5,17 @@ var d = new Date();
 document.getElementById("current_date").innerHTML += d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
 
 
+var items = new Map();
+
 function add_item(item_name, quantity, item_price) {
+
+    if(items.has(item_name)){
+        var tmp = document.getElementById(item_name);
+        qt = tmp.getElementsByTagName("input");
+        qt[0].value = parseInt(qt[0].value) + quantity;
+        update_price(item_name);
+        return;
+    }
     var tr = document.createElement("tr");
     //Item Name***************
     var td1 = document.createElement("td");
@@ -48,19 +58,22 @@ function add_item(item_name, quantity, item_price) {
     var element = document.getElementById("main_table");
     element.appendChild(tr);
     window.scrollBy(0, 100);
+    items.set(item_name, item_price*quantity);
 }
 
 
-var i = 3;
-add_item("Maggie1", 5, 62);
-add_item("Maggie2",6, 10);
-add_item("Maggie3",6, 63);
-add_item("Maggie4",3, 12);
+add_item("Notebook", 5, 32);
+add_item("Pen",2, 10);
+add_item("A4_Sheets",3, 1);
+add_item("Scale",1, 10);
+add_item("Notebook", 1, 32);
 
-//setInterval(function(){add_item("Maggie", "20 INR")}, 1000);
+//setInterval(function(){add_item("A4_Sheets", 1, 1)}, 2000);
 
 function remove_item(item_name){
+    items.delete(item_name);
     $("#" + item_name).remove();
+    update_total();
 }
 
 function update_price(item_name){
@@ -69,4 +82,15 @@ function update_price(item_name){
     per_price = tmp.getElementsByClassName("per_price");
     quantity = tmp.getElementsByTagName("input");   
     price[0].innerHTML = per_price[0].innerHTML*quantity[0].value;
+    items.set(item_name, per_price[0].innerHTML*quantity[0].value);
+    update_total();
+}
+
+function update_total(){
+    var sum = 0;
+    var mapiter = items.values();
+    for(p of mapiter){
+        sum += p;
+    }
+    document.getElementsByClassName("total")[0].cells[1].innerHTML = "Total: " + sum;
 }

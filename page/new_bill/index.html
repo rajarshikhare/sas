@@ -99,7 +99,7 @@
             text-align: left;
         }
 
-        /*input[type=text],
+        input[class=info],
         select {
             width: 100%;
             padding: 12px 20px;
@@ -108,7 +108,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-        }*/
+        }
     </style>
 </head>
 
@@ -137,8 +137,8 @@
                     <table>
                         <tr>
                             <td>
-                                <p>Name: <input type="text"></p>
-                                <p>Phone: <input type="text"></p>
+                                <p>Name: <input type="text" class="info"></p>
+                                <p>Phone: <input type="text" class="info"></p>
                             </td>
                         </tr>
                     </table>
@@ -160,6 +160,14 @@
                 </td>
                 <td>
                     Price
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr class="total">
+                <td></td>
+                <td>
+                    Total: 0
                 </td>
             </tr>
         </table>
