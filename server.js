@@ -28,7 +28,19 @@ app_.get('/static/logo.png', function(req, res){
 });
 
 io.sockets.on("connection", function(socket) {
-  console.log("Conneded to devices");;
+  socket.on('app', function(data){
+    console.log("Desktop app connected..");
+  });
+
+  socket.on('phone', function(data){
+    io.sockets.emit('phone connected', '');
+    console.log("Phone app connected..");
+  })
+
+  socket.on('disconnect', function(){
+    console.log("disconneded phone");
+    io.sockets.emit('disconnected phone', '');
+  })
 
   socket.on('item', function(data){
     io.sockets.emit('Add item on page', {"Product Name":data, "Quantity":1, "Per Price": 12});

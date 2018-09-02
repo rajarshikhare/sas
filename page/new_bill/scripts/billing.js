@@ -62,15 +62,6 @@ function addItem(item_name, quantity, item_price) {
     updateTotal();
 }
 
-
-addItem("Notebook", 5, 32);
-addItem("Pen", 2, 10);
-addItem("A4_Sheets", 3, 1);
-addItem("Scale", 1, 10);
-addItem("Notebook", 1, 32);
-
-//setInterval(function(){addItem("A4_Sheets", 1, 1)}, 2000);
-
 function removeItem(item_name) {
     items.delete(item_name);
     $("#" + item_name).remove();
@@ -99,7 +90,17 @@ function updateTotal() {
 
 $(function() {
     var socket = io.connect("http://localhost:5000");
-    
+    socket.emit('app', '');
+
+
+    socket.on('phone connected', function(data){
+        console.log("gota");
+        $("img#connected").attr("src","static/connected.svg");
+    });
+
+    socket.on('disconnected phone' , function(){
+        $("img#connected").attr("src","static/disconnected.svg");
+    });
 
     socket.on('Add item on page', function(data){
         addItem(data['Product Name'], data['Quantity'], data['Per Price']);
