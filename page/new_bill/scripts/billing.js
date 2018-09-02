@@ -7,13 +7,13 @@ document.getElementById("current_date").innerHTML += d.getDate() + "-" + d.getMo
 
 var items = new Map();
 
-function add_item(item_name, quantity, item_price) {
+function addItem(item_name, quantity, item_price) {
 
-    if(items.has(item_name)){
+    if (items.has(item_name)) {
         var tmp = document.getElementById(item_name);
         qt = tmp.getElementsByTagName("input");
         qt[0].value = parseInt(qt[0].value) + quantity;
-        update_price(item_name);
+        updatePrice(item_name);
         return;
     }
     var tr = document.createElement("tr");
@@ -26,15 +26,15 @@ function add_item(item_name, quantity, item_price) {
     var node2 = document.createElement("input");
     node2.type = "text";
     node2.value = quantity;
-    node2.setAttribute("onchange", 'update_price("' + item_name + '")');
+    node2.setAttribute("onchange", 'updatePrice("' + item_name + '")');
     td2.appendChild(node2);
     //Remove item***************
     var td3 = document.createElement("td");
     var button = document.createElement("button");
-    button.setAttribute("onclick", 'remove_item("' + item_name + '")');
+    button.setAttribute("onclick", 'removeItem("' + item_name + '")');
     var img = document.createElement("img");
     img.setAttribute("height", "14");
-    img.setAttribute("width", "14"); 
+    img.setAttribute("width", "14");
     img.setAttribute("src", "static/delete.svg");
     button.appendChild(img);
     td3.appendChild(button);
@@ -46,7 +46,7 @@ function add_item(item_name, quantity, item_price) {
     //Price
     var td5 = document.createElement("td");
     td5.setAttribute("class", "price");
-    var node4 = document.createTextNode(item_price*quantity);
+    var node4 = document.createTextNode(item_price * quantity);
     td5.appendChild(node4);
     //**************************/
     tr.appendChild(td1);
@@ -58,39 +58,50 @@ function add_item(item_name, quantity, item_price) {
     var element = document.getElementById("main_table");
     element.appendChild(tr);
     window.scrollBy(0, 100);
-    items.set(item_name, item_price*quantity);
+    items.set(item_name, item_price * quantity);
+    updateTotal();
 }
 
 
-add_item("Notebook", 5, 32);
-add_item("Pen",2, 10);
-add_item("A4_Sheets",3, 1);
-add_item("Scale",1, 10);
-add_item("Notebook", 1, 32);
+addItem("Notebook", 5, 32);
+addItem("Pen", 2, 10);
+addItem("A4_Sheets", 3, 1);
+addItem("Scale", 1, 10);
+addItem("Notebook", 1, 32);
 
-//setInterval(function(){add_item("A4_Sheets", 1, 1)}, 2000);
+//setInterval(function(){addItem("A4_Sheets", 1, 1)}, 2000);
 
-function remove_item(item_name){
+function removeItem(item_name) {
     items.delete(item_name);
     $("#" + item_name).remove();
-    update_total();
+    updateTotal();
 }
 
-function update_price(item_name){
+function updatePrice(item_name) {
     var tmp = document.getElementById(item_name);
     price = tmp.getElementsByClassName("price");
     per_price = tmp.getElementsByClassName("per_price");
-    quantity = tmp.getElementsByTagName("input");   
-    price[0].innerHTML = per_price[0].innerHTML*quantity[0].value;
-    items.set(item_name, per_price[0].innerHTML*quantity[0].value);
-    update_total();
+    quantity = tmp.getElementsByTagName("input");
+    price[0].innerHTML = per_price[0].innerHTML * quantity[0].value;
+    items.set(item_name, per_price[0].innerHTML * quantity[0].value);
+    updateTotal();
 }
 
-function update_total(){
+function updateTotal() {
     var sum = 0;
     var mapiter = items.values();
-    for(p of mapiter){
+    for (p of mapiter) {
         sum += p;
     }
     document.getElementsByClassName("total")[0].cells[1].innerHTML = "Total: " + sum;
 }
+
+
+$(function() {
+    var socket = io.connect("http://localhost:5000");
+    
+
+    socket.on('Add item on page', function(data){
+        addItem(data['Product Name'], data['Quantity'], data['Per Price']);
+    });
+})

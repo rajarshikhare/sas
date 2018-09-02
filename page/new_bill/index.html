@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script type="text/javascript" src="static/jquery.min.js"></script>
 
 <head>
     <meta charset="utf-8">
-    <title>A simple, clean, and responsive HTML invoice template</title>
+    <title>New Bill</title>
 
     <style>
         .invoice-box {
@@ -116,13 +117,12 @@
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0" id="main_table">
             <tr class="top">
-                <td colspan="2">
+                <td colspan="5">
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="https://www.google.co.in/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" style="width:100%; max-width:300px;">
+                                <img src="static/logo.png" style="width:25%; max-width:300px;">
                             </td>
-
                             <td>
                                 <p id="invoice_no">Invoice : </p>
                                 <p id="current_date">Bill Date: </p>
@@ -133,7 +133,7 @@
             </tr>
 
             <tr class="information">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         <tr>
                             <td>
