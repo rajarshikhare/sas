@@ -1,4 +1,4 @@
-Intruction to Run this Application
+Instruction to Run this Application
 
 1. Download and install nodejs from the link 
    https://nodejs.org/en/download/
@@ -9,8 +9,11 @@ Intruction to Run this Application
 	"npm install"
 
    This will install all the dependencies required for the application.
+   
+   
+3. Download and run mongodb server.
 
 
-3. Now type the command "npm start" to execute the program.
+4. Now type the command "npm start" to execute the program.
 
 
