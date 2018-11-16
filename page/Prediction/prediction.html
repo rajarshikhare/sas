@@ -1,0 +1,94 @@
+<head>
+    <!-- Plotly.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body>
+
+    <div align="center">
+        Product Name : <input id="p_name" type="text" name="product_name">
+
+        <input class="ui button" type="submit" value="submit" onclick="test()">
+    </div>
+
+    <div id="myDiv">
+        <!-- Plotly chart will be drawn inside this DIV -->
+    </div>
+    <script>
+
+
+        function update_graph(p_name, y) {
+            var x1 = new Array(30);
+            for (var i = 0; i < 30; i++) {
+                x1[i] = i + 1;
+            }
+            var avg_slope = 0;
+            for (var i = 0; i < 30; i++) {
+                avg_slope += y[i]/(i+1);
+            }
+            avg_slope = avg_slope/30;
+            var pred = new Array(30);
+            for (var i = 0; i < 30; i++) {
+                pred[i] = avg_slope * i;
+            }
+
+            var sales = {
+                x: x1,
+                y: y,
+                mode: 'lines+markers'
+            };
+
+            var prediction = {
+                x: x1,
+                y: pred,
+                mode: 'lines+markers'
+            };
+
+            var data = [sales, prediction];
+
+            var layout = {
+                title: p_name
+            };
+
+            Plotly.newPlot('myDiv', data, layout);
+        }
+
+
+        function test() {
+            var p_name = document.getElementById('p_name').value;
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    //document.getElementById("demo").innerHTML =
+                    console.log(this.responseText);
+                    var data = JSON.parse(this.responseText);
+                    console.log(data['y']);
+                    update_graph(p_name, data['y']);
+                }
+            };
+            xhttp.open("GET", `http://localhost:5000/get_graph_data/${p_name}`, true);
+            xhttp.send();
+            /*$.get("http://localhost:5000/get_graph_data",
+                {
+                    "product_name": p_name,
+
+                }, function () {
+                    console.log(this.responseText);
+                    var data = JSON.parse(this.responseText);
+                    console.log(data['y']);
+                    update_graph("Updated", data['y']);
+                })*/
+
+
+            //update_graph(p_name)
+        }
+    </script>
+
+</body>

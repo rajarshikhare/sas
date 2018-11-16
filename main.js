@@ -19,7 +19,8 @@ function createWindow() {
   win.loadFile('page/new_bill/index.html')
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  
+  //win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -40,7 +41,46 @@ function createWindow() {
           }
 
         },
-        { label: 'Old Bills' }
+        { label: 'Print Bill',
+          click() {
+            win.webContents.print({silent: true, printBackground:true});
+          }
+        }
+        
+      ]
+    },
+    {
+      label: 'Statistics',
+      submenu: [
+        {
+          label: 'Sales Graph',
+          click() {
+            win.loadFile('page/Statistics/statistic.html')
+          }
+        },
+        {
+          label: 'Prediction',
+          click() {
+            win.loadFile('page/Prediction/prediction.html')
+          }
+        }
+      ]
+    },
+    {
+      label: 'Inventory',
+      submenu: [
+        {
+          label: 'Stock',
+          click() {
+            win.loadFile('page/Stock/stock.html')
+          }
+        },
+        {
+          label: 'Manage',
+          click() {
+            win.loadFile('page/Manage/manage.html')
+          }
+        }
       ]
     }
   ])

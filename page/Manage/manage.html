@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Table V02</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<!--===============================================================================================-->
+</head>
+
+<body>
+	<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<input type="text" id="fpid" placeholder="Enter Product ID">
+				<input type="submit" onclick="get_data()" value="Search">
+				<div class="table" id="stock">
+
+				
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+
+
+	<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+	<script>
+		function get_data()
+		{
+			var fpid= document.getElementById("fpid").value;
+			var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("stock").innerHTML = this.responseText;
+				console.log(this.responseText);
+
+			}
+		};
+		xhttp.open("GET", `http://localhost:5000/manage_all_stock/${fpid}`, true);
+		xhttp.send("");
+
+		}
+		function updatedata()
+		{
+			var pid= document.getElementById("pid").value;
+			var quantity= document.getElementById("quantity").value;
+			var pname= document.getElementById("pname").value;
+			var price= document.getElementById("price").value;
+			var discount= document.getElementById("discount").value;
+			var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("stock").innerHTML = "updated";
+
+			}
+		};
+		xhttp.open("GET", `http://localhost:5000/update_data/${pid}/${pname}/${price}/${quantity}/${discount}`, true);
+		xhttp.send("");
+
+		}
+
+	</script>
+
+</body>
+
+</html>
